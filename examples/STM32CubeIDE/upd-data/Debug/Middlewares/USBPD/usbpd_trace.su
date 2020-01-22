@@ -1,0 +1,4 @@
+usbpd_trace.c:96:6:USBPD_TRACE_Init	4	static
+usbpd_trace.c:109:6:USBPD_TRACE_DeInit	4	static
+usbpd_trace.c:115:6:USBPD_TRACE_Add	16	static
+usbpd_trace.c:188:10:USBPD_TRACE_TX_Process	4	static

@@ -1,0 +1,8 @@
+stm32g4xx_ll_ucpd.h:353:22:LL_UCPD_Disable	16	static
+stm32g4xx_ll_bus.h:937:22:LL_APB1_GRP2_EnableClock	24	static
+stm32g4xx_ll_bus.h:1089:22:LL_APB1_GRP2_DisableClock	16	static
+stm32g4xx_ll_bus.h:1159:22:LL_APB1_GRP2_ForceReset	16	static
+stm32g4xx_ll_bus.h:1229:22:LL_APB1_GRP2_ReleaseReset	16	static
+stm32g4xx_ll_ucpd.c:80:13:LL_UCPD_DeInit	24	static
+stm32g4xx_ll_ucpd.c:115:13:LL_UCPD_Init	16	static
+stm32g4xx_ll_ucpd.c:143:6:LL_UCPD_StructInit	16	static

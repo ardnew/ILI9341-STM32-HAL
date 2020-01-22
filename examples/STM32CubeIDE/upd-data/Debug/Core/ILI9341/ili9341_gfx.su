@@ -1,0 +1,17 @@
+ili9341_gfx.c:62:21:ili9341_rgb_wheel	24	static
+ili9341_gfx.c:89:17:ili9341_color_wheel	24	static
+ili9341_gfx.c:95:6:ili9341_spi_tft_set_address_rect	40	static
+ili9341_gfx.c:116:6:ili9341_transmit_wait	16	static
+ili9341_gfx.c:125:6:ili9341_transmit_color	24	static
+ili9341_gfx.c:137:6:ili9341_draw_pixel	40	static
+ili9341_gfx.c:156:6:ili9341_draw_line	64	static
+ili9341_gfx.c:226:6:ili9341_draw_rect	40	static
+ili9341_gfx.c:235:6:ili9341_fill_rect	64	static
+ili9341_gfx.c:274:6:ili9341_draw_circle	40	static
+ili9341_gfx.c:311:6:ili9341_fill_circle	40	static
+ili9341_gfx.c:318:6:ili9341_fill_screen	24	static
+ili9341_gfx.c:324:6:ili9341_draw_bitmap_1b	56	static
+ili9341_gfx.c:371:6:ili9341_draw_char	88	static
+ili9341_gfx.c:426:6:ili9341_draw_string	40	static
+ili9341_gfx.c:448:23:ili9341_clip_rect	24	static
+ili9341_gfx.c:493:13:ili9341_fill_quarter_circle	56	static

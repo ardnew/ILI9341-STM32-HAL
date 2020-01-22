@@ -1,0 +1,8 @@
+main.c:71:19:screen	4	static
+main.c:76:6:screenTouchBegin	16	static
+main.c:81:6:screenTouchEnd	16	static
+main.c:92:5:main	48	static
+main.c:174:6:SystemClock_Config	152	static
+main.c:227:6:HAL_GPIO_EXTI_Callback	16	static
+main.c:251:6:HAL_TIM_PeriodElapsedCallback	16	static
+main.c:271:6:Error_Handler	4	static

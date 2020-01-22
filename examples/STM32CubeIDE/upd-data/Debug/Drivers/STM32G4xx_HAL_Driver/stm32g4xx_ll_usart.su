@@ -1,0 +1,15 @@
+stm32g4xx_ll_usart.h:641:26:LL_USART_IsEnabled	16	static
+stm32g4xx_ll_usart.h:1206:22:LL_USART_SetPrescaler	16	static
+stm32g4xx_ll_usart.h:1257:22:LL_USART_DisableSCLKOutput	16	static
+stm32g4xx_ll_usart.h:1286:22:LL_USART_SetStopBitsLength	16	static
+stm32g4xx_ll_usart.h:1711:22:LL_USART_SetHWFlowCtrl	16	static
+stm32g4xx_ll_usart.h:1862:22:LL_USART_SetBaudRate	32	static
+stm32g4xx_ll_bus.h:1141:22:LL_APB1_GRP1_ForceReset	16	static
+stm32g4xx_ll_bus.h:1211:22:LL_APB1_GRP1_ReleaseReset	16	static
+stm32g4xx_ll_bus.h:1541:22:LL_APB2_GRP1_ForceReset	16	static
+stm32g4xx_ll_bus.h:1577:22:LL_APB2_GRP1_ReleaseReset	16	static
+stm32g4xx_ll_usart.c:132:13:LL_USART_DeInit	24	static
+stm32g4xx_ll_usart.c:204:13:LL_USART_Init	32	static
+stm32g4xx_ll_usart.c:322:6:LL_USART_StructInit	16	static
+stm32g4xx_ll_usart.c:347:13:LL_USART_ClockInit	24	static
+stm32g4xx_ll_usart.c:406:6:LL_USART_ClockStructInit	16	static

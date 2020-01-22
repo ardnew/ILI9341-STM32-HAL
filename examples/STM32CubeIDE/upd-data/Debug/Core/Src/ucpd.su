@@ -1,0 +1,14 @@
+core_cm4.h:1676:26:__NVIC_GetPriorityGrouping	4	static
+core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+core_cm4.h:1863:26:NVIC_EncodePriority	40	static
+stm32g4xx_ll_bus.h:937:22:LL_APB1_GRP2_EnableClock	24	static
+stm32g4xx_ll_dma.h:629:22:LL_DMA_SetDataTransferDirection	32	static
+stm32g4xx_ll_dma.h:684:22:LL_DMA_SetMode	32	static
+stm32g4xx_ll_dma.h:735:22:LL_DMA_SetPeriphIncMode	32	static
+stm32g4xx_ll_dma.h:786:22:LL_DMA_SetMemoryIncMode	32	static
+stm32g4xx_ll_dma.h:838:22:LL_DMA_SetPeriphSize	32	static
+stm32g4xx_ll_dma.h:891:22:LL_DMA_SetMemorySize	32	static
+stm32g4xx_ll_dma.h:945:22:LL_DMA_SetChannelPriorityLevel	32	static
+stm32g4xx_ll_dma.h:1407:22:LL_DMA_SetPeriphRequest	32	static
+ucpd.c:28:6:MX_UCPD1_Init	8	static
