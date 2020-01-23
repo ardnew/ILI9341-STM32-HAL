@@ -1,5 +1,5 @@
 # ILI9341-STM32-HAL
-ILI9341 color TFT display and touchscreen driver for STM32 HAL using SPI with DMA
+ILI9341 color TFT display and touchscreen driver for STM32 using HAL SPI with DMA
 
 Source code for the following demo is provided as STM32Cube project and can be found at [examples/STM32CubeIDE/upd-data](examples/STM32CubeIDE/upd-data):
 
