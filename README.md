@@ -30,15 +30,15 @@ Source code for only the ported `pyportal_boing` demo using this library is here
 
 #### Configuration:
 
-1. Create an SPI device in STM32CubeIDE with **Format=Motorola**, **Size=8-bit**, **First=MSB**, **Polarity=Low**, **Phase=1Edge**. 
+1. Create an SPI device in STM32CubeIDE with **Format=Motorola**, **Size=8-bit**, **First=MSB**, **Polarity=Low**, **Phase=1Edge**.
    - Set the **BaudRatePrescalar** to the lowest possible your clock configuration will allow.
-   - **_IMPORTANT_** The touchscreen has a maximum frequency of 2MHz, which is probably slower than you want your TFT SPI clock. So in the routine that reads touch coordinates (`ili9341_touch_pressed_t ili9341_touch_coordinate(ili9341_device_t *,uint16_t *,uint16_t *)` in [ILI9341/ili9341.c](ILI9341/ili9341.c)), make sure to adjust the lines that modify the SPI clock so that your baud rate is _less than 2MHz_ before communicating with the touchscreen (e.g. `MODIFY_REG(dev->spi_hal->Instance->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_128)`), and then restored to whatever setting you use here immedaitely afterwards. See the comments in that source file for both locations.
+   - **_IMPORTANT_** The touchscreen has a maximum frequency of 2MHz, which is probably slower than you want your TFT SPI clock. So in the routine that reads touch coordinates (`ili9341_touch_pressed_t ili9341_touch_coordinate(ili9341_t *,uint16_t *,uint16_t *)` in [ILI9341/ili9341.c](ILI9341/ili9341.c)), make sure to adjust the lines that modify the SPI clock so that your baud rate is _less than 2MHz_ before communicating with the touchscreen (e.g. `MODIFY_REG(lcd->spi_hal->Instance->CR1, SPI_CR1_BR, SPI_BAUDRATEPRESCALER_128)`), and then restored to whatever setting you use here immedaitely afterwards. See the comments in that source file for both locations.
    - If using the touchscreen, you will probably want to set **Hardware NSSP=Disabled** (slave/chip-select) in favor of a software implementation, since you will need one signal for the TFT and a separate one for the touchscreen. Any two unused GPIO digital output pins will work.
 2. Add a Memory->Peripheral DMA TX request for your SPI device with **PeriphInc=Disabled**, **MemInc=Enabled**, **PeriphDataAlignment=Byte**, **MemDataAlignment=Byte**, **Mode=Normal**.
    - **_IMPORTANT_** If using FreeRTOS, you will need to raise the DMA interrupt priority to something logically higher (numerically lower) than the FreeRTOS idle thread priority. For example, if FreeRTOS priority is set to **3** and SPI DMA TX is configured as **DMA1 channel 4**, set DMA IRQ priority to **2** with `HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 2, 0)`.
 3. If using the touchscreen, be sure to configure the GPIO pin as external interrupt (EXTI) with rising/falling edge trigger detection (i.e. `GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING`).
 4. Be sure to enable interrupts (NVIC) and generate interrupt handlers for SPI, DMA, and your touchscreen IRQ (if used).
-5. If using the touchscreen, override the EXTI callback (`void HAL_GPIO_EXTI_Callback(uint16_t)`) somewhere in your application code and call `ili9341_touch_interrupt(ili9341_device_t *)` from inside that callback.
+5. If using the touchscreen, override the EXTI callback (`void HAL_GPIO_EXTI_Callback(uint16_t)`) somewhere in your application code and call `ili9341_touch_interrupt(ili9341_t *)` from inside that callback.
 
 An example GPIO, SPI, and DMA configuration follows:
 
@@ -48,7 +48,7 @@ An example GPIO, SPI, and DMA configuration follows:
 void MX_GPIO_Init(void)
 {
   ...
-  
+
   GPIO_InitStruct.Pin = TFT_CS_Pin|TOUCH_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -71,7 +71,7 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(TFT_RESET_GPIO_Port, &GPIO_InitStruct);
-  
+
   ...
 }
 ```
@@ -107,7 +107,7 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
   {
     __HAL_RCC_SPI1_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
-    
+
     GPIO_InitStruct.Pin = SPI1_TFT_SCK_Pin|SPI1_TFT_MISO_Pin|SPI1_TFT_MOSI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -148,10 +148,10 @@ void MX_DMA_Init(void)
 
   NVIC_SetPriority(DMA1_Channel2_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 0));
   NVIC_EnableIRQ(DMA1_Channel2_IRQn);
-  
+
   NVIC_SetPriority(DMA1_Channel3_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),3, 0));
   NVIC_EnableIRQ(DMA1_Channel3_IRQn);
-  
+
   HAL_NVIC_SetPriority(DMA1_Channel4_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel4_IRQn);
 }
@@ -160,19 +160,19 @@ void MX_DMA_Init(void)
 ###### main.c
 
 ```
-ili9341_device_t *_screen;
+ili9341_t *_screen;
 
-ili9341_device_t *screen(void)
+ili9341_t *screen(void)
 {
   return _screen;
 }
 
-void screenTouchBegin(ili9341_device_t *dev, uint16_t x, uint16_t y)
+void screenTouchBegin(ili9341_t *lcd, uint16_t x, uint16_t y)
 {
   ;
 }
 
-void screenTouchEnd(ili9341_device_t *dev, uint16_t x, uint16_t y)
+void screenTouchEnd(ili9341_t *lcd, uint16_t x, uint16_t y)
 {
   ;
 }
@@ -182,12 +182,12 @@ int main(void)
   HAL_Init();
 
   SystemClock_Config();
-  
+
   MX_GPIO_Init();
   MX_DMA_Init();
   MX_SPI1_Init();
 
-  _screen = ili9341_device_new(
+  _screen = ili9341_new(
       &hspi1,
       TFT_RESET_GPIO_Port, TFT_RESET_Pin,
       TFT_CS_GPIO_Port,    TFT_CS_Pin,

@@ -45,8 +45,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "ili9341.h"
-#include "ili9341_font.h"
-#include "ili9341_gfx.h"
+#include "ina260.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -91,13 +90,11 @@ bool_t;
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-ili9341_device_t *screen(void);
+ili9341_t *display(void);
+ina260_t *power(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define VDDA_APPLI 3264
-#define VSENSE_Pin GPIO_PIN_0
-#define VSENSE_GPIO_Port GPIOA
 #define USART2_TX_Pin GPIO_PIN_2
 #define USART2_TX_GPIO_Port GPIOA
 #define USART2_RX_Pin GPIO_PIN_3
@@ -112,21 +109,24 @@ ili9341_device_t *screen(void);
 #define SPI1_TFT_MOSI_GPIO_Port GPIOA
 #define TFT_DC_Pin GPIO_PIN_0
 #define TFT_DC_GPIO_Port GPIOB
-#define TOUCH_IRQ_Pin GPIO_PIN_8
+#define I2C3_VSENSE_SCL_Pin GPIO_PIN_8
+#define I2C3_VSENSE_SCL_GPIO_Port GPIOA
+#define VSENSE_ALRT_Pin GPIO_PIN_9
+#define VSENSE_ALRT_GPIO_Port GPIOA
+#define TOUCH_IRQ_Pin GPIO_PIN_10
 #define TOUCH_IRQ_GPIO_Port GPIOA
-#define TOUCH_IRQ_EXTI_IRQn EXTI9_5_IRQn
+#define TOUCH_IRQ_EXTI_IRQn EXTI15_10_IRQn
+#define TFT_RESET_Pin GPIO_PIN_11
+#define TFT_RESET_GPIO_Port GPIOA
 #define TOUCH_CS_Pin GPIO_PIN_12
 #define TOUCH_CS_GPIO_Port GPIOA
 #define T_SWDIO_Pin GPIO_PIN_13
 #define T_SWDIO_GPIO_Port GPIOA
 #define T_SWCLK_Pin GPIO_PIN_14
 #define T_SWCLK_GPIO_Port GPIOA
-#define TFT_RESET_Pin GPIO_PIN_5
-#define TFT_RESET_GPIO_Port GPIOB
-#define LED1_GREEN_Pin GPIO_PIN_8
-#define LED1_GREEN_GPIO_Port GPIOB
+#define I2C3_VSENSE_SDA_Pin GPIO_PIN_5
+#define I2C3_VSENSE_SDA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
-#define VSENSE_ADC_Instance ADC1
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

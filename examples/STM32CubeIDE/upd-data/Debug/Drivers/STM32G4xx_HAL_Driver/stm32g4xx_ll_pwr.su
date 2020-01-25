@@ -1,3 +1,0 @@
-stm32g4xx_ll_bus.h:1141:22:LL_APB1_GRP1_ForceReset	16	static
-stm32g4xx_ll_bus.h:1211:22:LL_APB1_GRP1_ReleaseReset	16	static
-stm32g4xx_ll_pwr.c:56:13:LL_PWR_DeInit	8	static

@@ -51,10 +51,9 @@ static uint16_t spi_tx_block[__SPI_TX_BLOCK_MAX__]; // default DMA TX buffer
 
 // ------------------------------------------------------ function prototypes --
 
-static ili9341_bool_t ili9341_clip_rect(ili9341_device_t *dev,
+static ili9341_bool_t ili9341_clip_rect(ili9341_t *lcd,
     int16_t *x, int16_t *y, uint16_t *w, uint16_t *h);
-static void ili9341_fill_quarter_circle(ili9341_device_t *dev,
-    ili9341_color_t color,
+static void ili9341_fill_quarter_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r, uint8_t corners, int16_t delta);
 
 // ------------------------------------------------------- exported functions --
@@ -92,68 +91,68 @@ ili9341_color_t ili9341_color_wheel(uint8_t *pos)
   return __ILI9341_COLOR565_RGB(rgb);
 }
 
-void ili9341_spi_tft_set_address_rect(ili9341_device_t *dev,
+void ili9341_spi_tft_set_address_rect(ili9341_t *lcd,
     uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1)
 {
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_select(lcd);
 
   // column address set
-  ili9341_spi_write_command_data(dev, issNONE,
+  ili9341_spi_write_command_data(lcd, issNONE,
       0x2A, 4, (uint8_t[]){ (x0 >> 8) & 0xFF, x0 & 0xFF,
                             (x1 >> 8) & 0xFF, x1 & 0xFF });
 
   // row address set
-  ili9341_spi_write_command_data(dev, issNONE,
+  ili9341_spi_write_command_data(lcd, issNONE,
       0x2B, 4, (uint8_t[]){ (y0 >> 8) & 0xFF, y0 & 0xFF,
                             (y1 >> 8) & 0xFF, y1 & 0xFF });
 
   // write to RAM
-  ili9341_spi_write_command(dev, issNONE, 0x2C);
+  ili9341_spi_write_command(lcd, issNONE, 0x2C);
 
-  ili9341_spi_tft_release(dev);
+  ili9341_spi_tft_release(lcd);
 }
 
-void ili9341_transmit_wait(ili9341_device_t *dev)
+void ili9341_transmit_wait(ili9341_t *lcd)
 {
-  if (NULL == dev)
+  if (NULL == lcd)
     { return; }
 
-  while (HAL_DMA_STATE_BUSY == HAL_DMA_GetState(dev->spi_hal->hdmatx))
+  while (HAL_DMA_STATE_BUSY == HAL_DMA_GetState(lcd->spi_hal->hdmatx))
     { continue; }
 }
 
-void ili9341_transmit_color(ili9341_device_t *dev, uint16_t size,
+void ili9341_transmit_color(ili9341_t *lcd, uint16_t size,
     uint16_t color[]/* already byte-swapped (LE) */, ili9341_bool_t wait)
 {
-  if ((NULL == dev) || (0 == size) || (NULL == color))
+  if ((NULL == lcd) || (0 == size) || (NULL == color))
     { return; }
 
-  HAL_SPI_Transmit_DMA(dev->spi_hal, (uint8_t *)color, size);
+  HAL_SPI_Transmit_DMA(lcd->spi_hal, (uint8_t *)color, size);
 
   if (ibOK(wait))
-    { ili9341_transmit_wait(dev); }
+    { ili9341_transmit_wait(lcd); }
 }
 
-void ili9341_draw_pixel(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_pixel(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y)
 {
-  if (ibNOT(ili9341_clip_rect(dev, &x, &y, NULL, NULL)))
+  if (ibNOT(ili9341_clip_rect(lcd, &x, &y, NULL, NULL)))
     { return; }
 
   uint16_t color_le = __LEu16(&color);
 
   // select target region
-  ili9341_spi_tft_set_address_rect(dev, x, y, x + 1, y + 1);
+  ili9341_spi_tft_set_address_rect(lcd, x, y, x + 1, y + 1);
 
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_select(lcd);
 
-  HAL_GPIO_WritePin(dev->data_command_port, dev->data_command_pin, __GPIO_PIN_SET__);
-  HAL_SPI_Transmit(dev->spi_hal, (uint8_t *)&color_le, 2U, __SPI_MAX_DELAY__);
+  HAL_GPIO_WritePin(lcd->data_command_port, lcd->data_command_pin, __GPIO_PIN_SET__);
+  HAL_SPI_Transmit(lcd->spi_hal, (uint8_t *)&color_le, 2U, __SPI_MAX_DELAY__);
 
-  ili9341_spi_tft_release(dev);
+  ili9341_spi_tft_release(lcd);
 }
 
-void ili9341_draw_line(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_line(ili9341_t *lcd, ili9341_color_t color,
     int16_t x0, int16_t y0, int16_t x1, int16_t y1)
 {
   int16_t dx = x1 - x0;
@@ -167,14 +166,14 @@ void ili9341_draw_line(ili9341_device_t *dev, ili9341_color_t color,
     // vertical line
     if (0 == dy)
       { return; } // distance = 0, no line to draw
-    ili9341_fill_rect(dev, color, x0, y0, 1, abs(dy));
+    ili9341_fill_rect(lcd, color, x0, y0, 1, abs(dy));
     return;
   }
   else if (0 == dy) {
     // horizontal line
     if (0 == dx)
       { return; } // distance = 0, no line to draw
-    ili9341_fill_rect(dev, color, x0, y0, abs(dx), 1);
+    ili9341_fill_rect(lcd, color, x0, y0, abs(dx), 1);
     return;
   }
 
@@ -208,9 +207,9 @@ void ili9341_draw_line(ili9341_device_t *dev, ili9341_color_t color,
     // continue algorithm even if current pixel is outside of screen
     // bounds, so that the line is drawn at correct position once
     // it actually enters screen bounds (if ever).
-    if ( (x >= 0) && (x <= dev->screen_size.width) &&
-         (y >= 0) && (y <= dev->screen_size.height) ) {
-      ili9341_draw_pixel(dev, color, x, y);
+    if ( (x >= 0) && (x <= lcd->screen_size.width) &&
+         (y >= 0) && (y <= lcd->screen_size.height) ) {
+      ili9341_draw_pixel(lcd, color, x, y);
     }
 
     err -= dy;
@@ -223,20 +222,20 @@ void ili9341_draw_line(ili9341_device_t *dev, ili9341_color_t color,
   }
 }
 
-void ili9341_draw_rect(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_rect(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, uint16_t w, uint16_t h)
 {
-  ili9341_draw_line(dev, color,     x,     y,   x+w,     y );
-  ili9341_draw_line(dev, color,     x, y+h-1,   x+w, y+h-1 );
-  ili9341_draw_line(dev, color,     x,     y,     x,   y+h );
-  ili9341_draw_line(dev, color, x+w-1,     y, x+w-1,   y+h );
+  ili9341_draw_line(lcd, color,     x,     y,   x+w,     y );
+  ili9341_draw_line(lcd, color,     x, y+h-1,   x+w, y+h-1 );
+  ili9341_draw_line(lcd, color,     x,     y,     x,   y+h );
+  ili9341_draw_line(lcd, color, x+w-1,     y, x+w-1,   y+h );
 }
 
-void ili9341_fill_rect(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_fill_rect(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, uint16_t w, uint16_t h)
 {
   // verify we have something within screen dimensions to be drawn
-  if (ibNOT(ili9341_clip_rect(dev, &x, &y, &w, &h)))
+  if (ibNOT(ili9341_clip_rect(lcd, &x, &y, &w, &h)))
     { return; }
 
   uint32_t num_pixels = w * h;
@@ -252,10 +251,10 @@ void ili9341_fill_rect(ili9341_device_t *dev, ili9341_color_t color,
     { spi_tx_block[i] = color_le; }
 
   // select target region
-  ili9341_spi_tft_set_address_rect(dev, x, y, (x + w - 1), (y + h - 1));
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_set_address_rect(lcd, x, y, (x + w - 1), (y + h - 1));
+  ili9341_spi_tft_select(lcd);
 
-  HAL_GPIO_WritePin(dev->data_command_port, dev->data_command_pin, __GPIO_PIN_SET__);
+  HAL_GPIO_WritePin(lcd->data_command_port, lcd->data_command_pin, __GPIO_PIN_SET__);
 
   // repeatedly send MIN(remaining-words, block-words) words of color data until
   // all rect words have been sent.
@@ -264,14 +263,14 @@ void ili9341_fill_rect(ili9341_device_t *dev, ili9341_color_t color,
     curr_wc = rect_wc;
     if (curr_wc > block_wc)
       { curr_wc = block_wc; }
-    ili9341_transmit_color(dev, curr_wc * 2/*16-bit words*/, spi_tx_block, ibYes);
+    ili9341_transmit_color(lcd, curr_wc * 2/*16-bit words*/, spi_tx_block, ibYes);
     rect_wc -= curr_wc;
   }
 
-  ili9341_spi_tft_release(dev);
+  ili9341_spi_tft_release(lcd);
 }
 
-void ili9341_draw_circle(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r)
 {
   int16_t f = 1 - r;
@@ -280,10 +279,10 @@ void ili9341_draw_circle(ili9341_device_t *dev, ili9341_color_t color,
   int16_t ix = 0;
   int16_t iy = r;
 
-  ili9341_draw_pixel(dev, color, x, y + r);
-  ili9341_draw_pixel(dev, color, x, y - r);
-  ili9341_draw_pixel(dev, color, x + r, y);
-  ili9341_draw_pixel(dev, color, x - r, y);
+  ili9341_draw_pixel(lcd, color, x, y + r);
+  ili9341_draw_pixel(lcd, color, x, y - r);
+  ili9341_draw_pixel(lcd, color, x + r, y);
+  ili9341_draw_pixel(lcd, color, x - r, y);
 
   while (ix < iy) {
 
@@ -297,41 +296,41 @@ void ili9341_draw_circle(ili9341_device_t *dev, ili9341_color_t color,
     fx += 2;
     f += fx;
 
-    ili9341_draw_pixel(dev, color, x + ix, y + iy);
-    ili9341_draw_pixel(dev, color, x - ix, y + iy);
-    ili9341_draw_pixel(dev, color, x + ix, y - iy);
-    ili9341_draw_pixel(dev, color, x - ix, y - iy);
-    ili9341_draw_pixel(dev, color, x + iy, y + ix);
-    ili9341_draw_pixel(dev, color, x - iy, y + ix);
-    ili9341_draw_pixel(dev, color, x + iy, y - ix);
-    ili9341_draw_pixel(dev, color, x - iy, y - ix);
+    ili9341_draw_pixel(lcd, color, x + ix, y + iy);
+    ili9341_draw_pixel(lcd, color, x - ix, y + iy);
+    ili9341_draw_pixel(lcd, color, x + ix, y - iy);
+    ili9341_draw_pixel(lcd, color, x - ix, y - iy);
+    ili9341_draw_pixel(lcd, color, x + iy, y + ix);
+    ili9341_draw_pixel(lcd, color, x - iy, y + ix);
+    ili9341_draw_pixel(lcd, color, x + iy, y - ix);
+    ili9341_draw_pixel(lcd, color, x - iy, y - ix);
   }
 }
 
-void ili9341_fill_circle(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_fill_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r)
 {
-  ili9341_draw_line(dev, color, x, y - r, x, (y - r) + (2 * r) + 1);
-  ili9341_fill_quarter_circle(dev, color, x, y, r, 3, 0);
+  ili9341_draw_line(lcd, color, x, y - r, x, (y - r) + (2 * r) + 1);
+  ili9341_fill_quarter_circle(lcd, color, x, y, r, 3, 0);
 }
 
-void ili9341_fill_screen(ili9341_device_t *dev, ili9341_color_t color)
+void ili9341_fill_screen(ili9341_t *lcd, ili9341_color_t color)
 {
-  ili9341_fill_rect(dev, color,
-      0, 0, dev->screen_size.width, dev->screen_size.height);
+  ili9341_fill_rect(lcd, color,
+      0, 0, lcd->screen_size.width, lcd->screen_size.height);
 }
 
-void ili9341_draw_bitmap_1b(ili9341_device_t *dev,
+void ili9341_draw_bitmap_1b(ili9341_t *lcd,
     ili9341_color_t fg_color, ili9341_color_t bg_color,
     int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t *bmp)
 {
-  if ((NULL == dev) || (NULL == bmp))
+  if ((NULL == lcd) || (NULL == bmp))
     { return; }
 
   int16_t  _x = x, _y = y;
   uint16_t _w = w, _h = h;
 
-  if (ibNOT(ili9341_clip_rect(dev, &_x, &_y, &_w, &_h)))
+  if (ibNOT(ili9341_clip_rect(lcd, &_x, &_y, &_w, &_h)))
     { return; }
 
   int16_t byteWidth = (w + 7) / 8;
@@ -341,10 +340,10 @@ void ili9341_draw_bitmap_1b(ili9341_device_t *dev,
   uint16_t bg_le = __LEu16(&(bg_color));
 
   // select target region
-  ili9341_spi_tft_set_address_rect(dev, x, y, w, h);
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_set_address_rect(lcd, x, y, w, h);
+  ili9341_spi_tft_select(lcd);
 
-  HAL_GPIO_WritePin(dev->data_command_port, dev->data_command_pin, __GPIO_PIN_SET__);
+  HAL_GPIO_WritePin(lcd->data_command_port, lcd->data_command_pin, __GPIO_PIN_SET__);
 
   for (int16_t j = 0; j < h; ++j, ++y) {
     for (int16_t i = 0; i < w; ++i) {
@@ -360,22 +359,22 @@ void ili9341_draw_bitmap_1b(ili9341_device_t *dev,
         { spi_tx_block[((j&1) * w) + i] = bg_le; }
     }
 
-    ili9341_transmit_wait(dev);
-    ili9341_transmit_color(dev, w * 2, &(spi_tx_block[(j&1) * w]), ibNo);
+    ili9341_transmit_wait(lcd);
+    ili9341_transmit_color(lcd, w * 2, &(spi_tx_block[(j&1) * w]), ibNo);
   }
 
-  ili9341_spi_tft_release(dev);
-  ili9341_transmit_wait(dev);
+  ili9341_spi_tft_release(lcd);
+  ili9341_transmit_wait(lcd);
 }
 
-void ili9341_draw_char(ili9341_device_t *dev, ili9341_text_attr_t attr, char ch)
+void ili9341_draw_char(ili9341_t *lcd, ili9341_text_attr_t attr, char ch)
 {
   // verify we have something within screen dimensions to be drawn
   int16_t  _x = attr.origin_x;
   int16_t  _y = attr.origin_y;
   uint16_t _w = attr.font->width;
   uint16_t _h = attr.font->height;
-  if (ibNOT(ili9341_clip_rect(dev, &_x, &_y, &_w, &_h)))
+  if (ibNOT(ili9341_clip_rect(lcd, &_x, &_y, &_w, &_h)))
     { return; }
 
   // 16-bit color, so need 2 bytes for each pixel being filled
@@ -402,12 +401,12 @@ void ili9341_draw_char(ili9341_device_t *dev, ili9341_text_attr_t attr, char ch)
   }
 
   // select target region
-  ili9341_spi_tft_set_address_rect(dev,
+  ili9341_spi_tft_set_address_rect(lcd,
       attr.origin_x, attr.origin_y,
       attr.origin_x + attr.font->width - 1, attr.origin_y + attr.font->height - 1);
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_select(lcd);
 
-  HAL_GPIO_WritePin(dev->data_command_port, dev->data_command_pin, __GPIO_PIN_SET__);
+  HAL_GPIO_WritePin(lcd->data_command_port, lcd->data_command_pin, __GPIO_PIN_SET__);
 
   // repeatedly send MIN(remaining-words, block-words) words of color data until
   // all rect words have been sent.
@@ -416,27 +415,27 @@ void ili9341_draw_char(ili9341_device_t *dev, ili9341_text_attr_t attr, char ch)
     curr_wc = rect_wc;
     if (curr_wc > block_wc)
       { curr_wc = block_wc; }
-    ili9341_transmit_color(dev, curr_wc * 2/*16-bit words*/, spi_tx_block, ibYes);
+    ili9341_transmit_color(lcd, curr_wc * 2/*16-bit words*/, spi_tx_block, ibYes);
     rect_wc -= curr_wc;
   }
 
-  ili9341_spi_tft_release(dev);
+  ili9341_spi_tft_release(lcd);
 }
 
-void ili9341_draw_string(ili9341_device_t *dev, ili9341_text_attr_t attr, char str[])
+void ili9341_draw_string(ili9341_t *lcd, ili9341_text_attr_t attr, char str[])
 {
   int16_t curr_x = attr.origin_x;
   int16_t curr_y = attr.origin_y;
 
   while ('\0' != *str) {
-    if ( (curr_x > dev->screen_size.width) ||
-         (curr_y > dev->screen_size.height) )
+    if ( (curr_x > lcd->screen_size.width) ||
+         (curr_y > lcd->screen_size.height) )
       { break; }
 
     attr.origin_x = curr_x;
     attr.origin_y = curr_y;
 
-    ili9341_draw_char(dev, attr, *str);
+    ili9341_draw_char(lcd, attr, *str);
 
     curr_x += attr.font->width;
     ++str;
@@ -445,7 +444,7 @@ void ili9341_draw_string(ili9341_device_t *dev, ili9341_text_attr_t attr, char s
 
 // ------------------------------------------------------- private functions --
 
-static ili9341_bool_t ili9341_clip_rect(ili9341_device_t *dev,
+static ili9341_bool_t ili9341_clip_rect(ili9341_t *lcd,
     int16_t *x, int16_t *y, uint16_t *w, uint16_t *h)
 {
   // must have an origin to do anything
@@ -453,7 +452,7 @@ static ili9341_bool_t ili9341_clip_rect(ili9341_device_t *dev,
     { return ibFalse; }
 
   //  1. rect origin beyond screen dimensions, nothing to draw
-  if ((*x >= dev->screen_size.width) || (*y >= dev->screen_size.height))
+  if ((*x >= lcd->screen_size.width) || (*y >= lcd->screen_size.height))
     { return ibFalse; }
 
   //  2. rect width or height is 0, nothing to draw
@@ -477,12 +476,12 @@ static ili9341_bool_t ili9341_clip_rect(ili9341_device_t *dev,
   if ((NULL != w) && (NULL != h)) {
 
     //  4. rect width beyond screen width, reduce rect width
-    if ((*x + *w - 1) >= dev->screen_size.width)
-      { *w = dev->screen_size.width - *x; }
+    if ((*x + *w - 1) >= lcd->screen_size.width)
+      { *w = lcd->screen_size.width - *x; }
 
     //  5. rect height beyond screen height, reduce rect height
-    if ((*y + *h - 1) >= dev->screen_size.height)
-      { *h = dev->screen_size.height - *y; }
+    if ((*y + *h - 1) >= lcd->screen_size.height)
+      { *h = lcd->screen_size.height - *y; }
 
     return (*w > 0U) && (*h > 0U);
   }
@@ -490,8 +489,7 @@ static ili9341_bool_t ili9341_clip_rect(ili9341_device_t *dev,
   return ibTrue;
 }
 
-static void ili9341_fill_quarter_circle(ili9341_device_t *dev,
-    ili9341_color_t color,
+static void ili9341_fill_quarter_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r, uint8_t corners, int16_t delta)
 {
   int16_t f = 1 - r;
@@ -523,12 +521,12 @@ static void ili9341_fill_quarter_circle(ili9341_device_t *dev,
       if (corners & 1) {
         tx = x + ix;
         ty = y - iy;
-        ili9341_draw_line(dev, color, tx, ty, tx, ty + 2 * iy + delta);
+        ili9341_draw_line(lcd, color, tx, ty, tx, ty + 2 * iy + delta);
       }
       if (corners & 2) {
         tx = x - ix;
         ty = y - iy;
-        ili9341_draw_line(dev, color, tx, ty, tx, ty + 2 * iy + delta);
+        ili9341_draw_line(lcd, color, tx, ty, tx, ty + 2 * iy + delta);
       }
     }
 
@@ -536,12 +534,12 @@ static void ili9341_fill_quarter_circle(ili9341_device_t *dev,
       if (corners & 1) {
         tx = x + py;
         ty = y - px;
-        ili9341_draw_line(dev, color, tx, ty, tx, ty + 2 * px + delta);
+        ili9341_draw_line(lcd, color, tx, ty, tx, ty + 2 * px + delta);
       }
       if (corners & 2) {
         tx = x - py;
         ty = y - px;
-        ili9341_draw_line(dev, color, tx, ty, tx, ty + 2 * px + delta);
+        ili9341_draw_line(lcd, color, tx, ty, tx, ty + 2 * px + delta);
       }
       py = iy;
     }

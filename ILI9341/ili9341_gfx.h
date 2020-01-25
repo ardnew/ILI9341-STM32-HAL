@@ -96,37 +96,37 @@ extern ili9341_color_t const ILI9341_PINK;
 ili9341_color_rgb_t ili9341_rgb_wheel(uint8_t *pos);
 ili9341_color_t ili9341_color_wheel(uint8_t *pos);
 
-void ili9341_spi_tft_set_address_rect(ili9341_device_t *dev,
+void ili9341_spi_tft_set_address_rect(ili9341_t *lcd,
     uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1);
 
-void ili9341_transmit_wait(ili9341_device_t *dev);
-void ili9341_transmit_color(ili9341_device_t *dev, uint16_t size,
+void ili9341_transmit_wait(ili9341_t *lcd);
+void ili9341_transmit_color(ili9341_t *lcd, uint16_t size,
     uint16_t color[]/* already byte-swapped (LE) */, ili9341_bool_t wait);
 
-void ili9341_draw_pixel(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_pixel(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y);
 
-void ili9341_draw_line(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_line(ili9341_t *lcd, ili9341_color_t color,
     int16_t x0, int16_t y0, int16_t x1, int16_t y1);
 
-void ili9341_draw_rect(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_rect(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, uint16_t w, uint16_t h);
-void ili9341_fill_rect(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_fill_rect(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, uint16_t w, uint16_t h);
 
-void ili9341_draw_circle(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_draw_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r);
-void ili9341_fill_circle(ili9341_device_t *dev, ili9341_color_t color,
+void ili9341_fill_circle(ili9341_t *lcd, ili9341_color_t color,
     int16_t x, int16_t y, int16_t r);
 
-void ili9341_fill_screen(ili9341_device_t *dev, ili9341_color_t color);
+void ili9341_fill_screen(ili9341_t *lcd, ili9341_color_t color);
 
-void ili9341_draw_bitmap_1b(ili9341_device_t *dev,
+void ili9341_draw_bitmap_1b(ili9341_t *lcd,
     ili9341_color_t fg_color, ili9341_color_t bg_color,
     int16_t x, int16_t y, uint16_t w, uint16_t h, uint8_t *bmp);
 
-void ili9341_draw_char(ili9341_device_t *dev, ili9341_text_attr_t attr, char ch);
-void ili9341_draw_string(ili9341_device_t *dev, ili9341_text_attr_t attr, char str[]);
+void ili9341_draw_char(ili9341_t *lcd, ili9341_text_attr_t attr, char ch);
+void ili9341_draw_string(ili9341_t *lcd, ili9341_text_attr_t attr, char str[]);
 
 #ifdef __cplusplus
 }

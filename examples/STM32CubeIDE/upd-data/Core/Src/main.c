@@ -21,8 +21,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "cmsis_os.h"
-#include "adc.h"
 #include "dma.h"
+#include "i2c.h"
 #include "spi.h"
 #include "ucpd.h"
 #include "usart.h"
@@ -55,7 +55,8 @@
 /* USER CODE BEGIN PV */
 extern osThreadId screenTaskHandle;
 
-ili9341_device_t *_screen;
+ili9341_t *_lcd;
+ina260_t *_pow;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,17 +69,22 @@ void MX_FREERTOS_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-ili9341_device_t *screen(void)
+ili9341_t *display(void)
 {
-  return _screen;
+  return _lcd;
 }
 
-void screenTouchBegin(ili9341_device_t *dev, uint16_t x, uint16_t y)
+ina260_t *power(void)
+{
+  return _pow;
+}
+
+void screenTouchBegin(ili9341_t *dev, uint16_t x, uint16_t y)
 {
   ;
 }
 
-void screenTouchEnd(ili9341_device_t *dev, uint16_t x, uint16_t y)
+void screenTouchEnd(ili9341_t *dev, uint16_t x, uint16_t y)
 {
   ;
 }
@@ -99,7 +105,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
- HAL_Init();
+  HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -116,14 +122,17 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
   MX_UCPD1_Init();
-  MX_USART1_UART_Init();
   MX_USBPD_Init();
   MX_SPI1_Init();
+  MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
 
-  _screen = ili9341_device_new(
+  _pow = ina260_new(
+      &hi2c3,
+      INA260_SLAVE_ADDRESS);
+
+  _lcd = ili9341_new(
       &hspi1,
       TFT_RESET_GPIO_Port, TFT_RESET_Pin,
       TFT_CS_GPIO_Port,    TFT_CS_Pin,
@@ -134,8 +143,8 @@ int main(void)
       itsSupported,
       itnNormalized);
 
-//  ili9341_calibrate_scalar(_screen, 3763, 3931, 338, 211);
-//  ili9341_calibrate_3point(_screen, 320, 240,
+//  ili9341_calibrate_scalar(_lcd, 3763, 3931, 338, 211);
+//  ili9341_calibrate_3point(_lcd, 320, 240,
 //       13,    30,
 //      312,   113,
 //      167,   214,
@@ -143,8 +152,8 @@ int main(void)
 //    18240, 30262,
 //    30648, 17720);
 
-  ili9341_set_touch_pressed_begin(_screen, screenTouchBegin);
-  ili9341_set_touch_pressed_end(_screen, screenTouchEnd);
+  ili9341_set_touch_pressed_begin(_lcd, screenTouchBegin);
+  ili9341_set_touch_pressed_end(_lcd, screenTouchEnd);
 
   /* USER CODE END 2 */
 
@@ -211,11 +220,9 @@ void SystemClock_Config(void)
   }
   /** Initializes the peripherals clocks
   */
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_USART2
-                              |RCC_PERIPHCLK_ADC12;
-  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK2;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART2|RCC_PERIPHCLK_I2C3;
   PeriphClkInit.Usart2ClockSelection = RCC_USART2CLKSOURCE_PCLK1;
-  PeriphClkInit.Adc12ClockSelection = RCC_ADC12CLKSOURCE_SYSCLK;
+  PeriphClkInit.I2c3ClockSelection = RCC_I2C3CLKSOURCE_PCLK1;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -229,7 +236,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
   switch (GPIO_Pin)
   {
     case TOUCH_IRQ_Pin:
-      ili9341_touch_interrupt(_screen);
+      ili9341_touch_interrupt(_lcd);
       break;
 
     default:

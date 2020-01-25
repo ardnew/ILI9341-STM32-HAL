@@ -1,8 +1,0 @@
-stm32g4xx_ll_bus.h:245:22:LL_AHB1_GRP1_EnableClock	24	static
-usbpd_hw.c:30:15:USBPD_HW_GetUSPDInstance	16	static
-usbpd_hw.c:35:22:USBPD_HW_Init_DMARxInstance	64	static
-usbpd_hw.c:63:6:USBPD_HW_DeInit_DMARxInstance	16	static
-usbpd_hw.c:68:22:USBPD_HW_Init_DMATxInstance	64	static
-usbpd_hw.c:94:6:USBPD_HW_DeInit_DMATxInstance	16	static
-usbpd_hw.c:99:10:USBPD_HW_GetRpResistorValue	16	static
-usbpd_hw.c:105:6:USBPD_HW_SetFRSSignalling	16	static

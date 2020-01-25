@@ -84,7 +84,7 @@ extern uint32_t _boing_start;
 extern uint32_t _boing_frame; // frames-per-second estimate
 
 void boing_init(boing_ball_t *ball);
-void boing(ili9341_device_t *dev, boing_ball_t *ball);
+void boing(ili9341_t *lcd, boing_ball_t *ball);
 
 // --
 

@@ -63,6 +63,7 @@
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern I2C_HandleTypeDef hi2c3;
 extern DMA_HandleTypeDef hdma_spi1_tx;
 extern SPI_HandleTypeDef hspi1;
 extern TIM_HandleTypeDef htim6;
@@ -196,22 +197,6 @@ void DMA1_Channel2_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles DMA1 channel3 global interrupt.
-  */
-void DMA1_Channel3_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA1_Channel3_IRQn 0 */
-#if defined(_TRACE)
-  TRACER_EMB_IRQHandlerDMA();
-#endif
-  /* USER CODE END DMA1_Channel3_IRQn 0 */
-
-  /* USER CODE BEGIN DMA1_Channel3_IRQn 1 */
-
-  /* USER CODE END DMA1_Channel3_IRQn 1 */
-}
-
-/**
   * @brief This function handles DMA1 channel4 global interrupt.
   */
 void DMA1_Channel4_IRQHandler(void)
@@ -223,20 +208,6 @@ void DMA1_Channel4_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
 
   /* USER CODE END DMA1_Channel4_IRQn 1 */
-}
-
-/**
-  * @brief This function handles EXTI line[9:5] interrupts.
-  */
-void EXTI9_5_IRQHandler(void)
-{
-  /* USER CODE BEGIN EXTI9_5_IRQn 0 */
-
-  /* USER CODE END EXTI9_5_IRQn 0 */
-  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
-  /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-
-  /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
 /**
@@ -254,18 +225,17 @@ void SPI1_IRQHandler(void)
 }
 
 /**
-  * @brief This function handles USART1 global interrupt / USART1 wake-up interrupt through EXTI line 25.
+  * @brief This function handles EXTI line[15:10] interrupts.
   */
-void USART1_IRQHandler(void)
+void EXTI15_10_IRQHandler(void)
 {
-  /* USER CODE BEGIN USART1_IRQn 0 */
-#if defined(_TRACE)
-  TRACER_EMB_IRQHandlerUSART();
-#endif
-  /* USER CODE END USART1_IRQn 0 */
-  /* USER CODE BEGIN USART1_IRQn 1 */
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
 
-  /* USER CODE END USART1_IRQn 1 */
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /**
@@ -293,6 +263,34 @@ void UCPD1_IRQHandler(void)
   /* USER CODE BEGIN UCPD1_IRQn 1 */
 
   /* USER CODE END UCPD1_IRQn 1 */
+}
+
+/**
+  * @brief This function handles I2C3 event interrupt / I2C3 wake-up interrupt through EXTI line 27.
+  */
+void I2C3_EV_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C3_EV_IRQn 0 */
+
+  /* USER CODE END I2C3_EV_IRQn 0 */
+  HAL_I2C_EV_IRQHandler(&hi2c3);
+  /* USER CODE BEGIN I2C3_EV_IRQn 1 */
+
+  /* USER CODE END I2C3_EV_IRQn 1 */
+}
+
+/**
+  * @brief This function handles I2C3 error interrupt.
+  */
+void I2C3_ER_IRQHandler(void)
+{
+  /* USER CODE BEGIN I2C3_ER_IRQn 0 */
+
+  /* USER CODE END I2C3_ER_IRQn 0 */
+  HAL_I2C_ER_IRQHandler(&hi2c3);
+  /* USER CODE BEGIN I2C3_ER_IRQn 1 */
+
+  /* USER CODE END I2C3_ER_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

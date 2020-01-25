@@ -1,9 +1,0 @@
-app_freertos.c:79:6:MX_FREERTOS_Init	64	static
-app_freertos.c:120:6:StartDefaultTask	16	static
-app_freertos.c:133:6:ScreenTask	24	static
-app_freertos.c:170:6:testScreenFill	16	static
-app_freertos.c:180:6:testScreenLines	56	static
-app_freertos.c:204:6:testScreenRects	40	static
-app_freertos.c:223:6:testScreenCircles	48	static
-app_freertos.c:262:6:testScreenText	40	static
-app_freertos.c:277:6:testBoing	32	static

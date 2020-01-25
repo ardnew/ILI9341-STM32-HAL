@@ -28,8 +28,9 @@
 #endif /* _TRACE */
 
 /* USER CODE BEGIN include */
-#include "usbpd_pwr_if.h"
 #include "main.h"
+#include "usbpd_pwr_if.h"
+#include "ina260.h"
 /* USER CODE END include */
 
 /** @addtogroup BSP
@@ -373,27 +374,26 @@ int32_t BSP_USBPD_PWR_VBUSSetVoltage_APDO(uint32_t Instance,
 int32_t BSP_USBPD_PWR_VBUSGetVoltage(uint32_t Instance, uint32_t *pVoltage)
 {
   /* USER CODE BEGIN BSP_USBPD_PWR_VBUSGetVoltage */
+  int32_t ret;
 
   /* Check if instance is valid       */
-  int32_t ret = BSP_ERROR_NONE;
-
-  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pVoltage))
-  {
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pVoltage)) {
     ret = BSP_ERROR_WRONG_PARAM;
   }
+  else {
 
-  *pVoltage = 0u;
-  if (BSP_ERROR_NONE == ret)
-  {
-    uint16_t an = LL_ADC_REG_ReadConversionData12(VSENSE_ADC_Instance);
-    uint32_t mV = __LL_ADC_CALC_DATA_TO_VOLTAGE(VDDA_APPLI, an, LL_ADC_RESOLUTION_12B);
+    ina260_t *pow = power();
+    float mV;
 
-    /* Divider R1=200K, R2=39K selected as it scales PD max of 20V down to 3.26V,
-     * which is less than the 3.3V GPIO tolerance. Therefore to scale back up, we
-     * can use 20V/3.26V=6.13V as multiplier.  */
-    mV *= 613;
-    mV /= 100;
-    *pVoltage = mV;
+    if (HAL_OK == ina260_get_voltage(pow, &mV)) {
+      *pVoltage = (uint32_t)mV;
+      ret = BSP_ERROR_NONE;
+    }
+    else {
+      *pVoltage = 0U;
+      ret = BSP_ERROR_COMPONENT_FAILURE;
+    }
+
   }
   return ret;
   /* USER CODE END BSP_USBPD_PWR_VBUSGetVoltage */
@@ -410,17 +410,26 @@ int32_t BSP_USBPD_PWR_VBUSGetVoltage(uint32_t Instance, uint32_t *pVoltage)
 int32_t BSP_USBPD_PWR_VBUSGetCurrent(uint32_t Instance, int32_t *pCurrent)
 {
   /* USER CODE BEGIN BSP_USBPD_PWR_VBUSGetCurrent */
-  /* Check if instance is valid       */
   int32_t ret;
 
-  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pCurrent))
-  {
+  /* Check if instance is valid       */
+  if ((Instance >= USBPD_PWR_INSTANCES_NBR) || (NULL == pCurrent)) {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else
-  {
-    *pCurrent = 0;
-    ret = BSP_ERROR_FEATURE_NOT_SUPPORTED;
+  else {
+
+    ina260_t *pow = power();
+    float mA;
+
+    if (HAL_OK == ina260_get_current(pow, &mA)) {
+      *pCurrent = (uint32_t)mA;
+      ret = BSP_ERROR_NONE;
+    }
+    else {
+      *pCurrent = 0U;
+      ret = BSP_ERROR_COMPONENT_FAILURE;
+    }
+
   }
   return ret;
   /* USER CODE END BSP_USBPD_PWR_VBUSGetCurrent */

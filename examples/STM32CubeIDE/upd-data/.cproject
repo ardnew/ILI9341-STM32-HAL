@@ -4,9 +4,14 @@
 		<cconfiguration id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.169199620">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.169199620" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<macros>
-					<stringMacro name="FW_PATH" type="VALUE_PATH_ANY" value="${FW_PATH_MACOS}"/>
-					<stringMacro name="FW_PATH_LINUX" type="VALUE_PATH_ANY" value="/home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0"/>
+					<stringMacro name="LIB_PATH_LINUX" type="VALUE_PATH_ANY" value="/home/andrew/Development/STM32CubeIDE"/>
 					<stringMacro name="FW_PATH_MACOS" type="VALUE_PATH_ANY" value="/Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0"/>
+					<stringMacro name="FW_PATH" type="VALUE_PATH_ANY" value="${FW_PATH_LINUX}"/>
+					<stringMacro name="FW_PATH_LINUX" type="VALUE_PATH_ANY" value="/home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0"/>
+					<stringMacro name="LIB_PATH_MACOS" type="VALUE_PATH_ANY" value="/Users/andrew/Development/STM32CubeIDE/git"/>
+					<stringMacro name="ILI9341_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH}/ILI9341-STM32-HAL/ILI9341"/>
+					<stringMacro name="INA260_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH}/INA260-STM32-HAL/INA260"/>
+					<stringMacro name="LIB_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH_LINUX}"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -21,19 +26,20 @@
 				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.169199620" name="Debug" parent="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug">
 					<folderInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.169199620." name="/" resourcePath="">
 						<toolChain id="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.533511952" name="MCU ARM GCC" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug">
-							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.type.1361147132" name="Internal Toolchain Type" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.type" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.version.338075372" name="Internal Toolchain Version" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.version" value="7-2018-q2-update" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.1066563239" name="Mcu" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" value="STM32G431KBTx" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.84096146" name="CpuId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" value="0" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1912830795" name="CpuCoreId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" value="0" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.1222020631" name="Floating-point unit" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.value.fpv4-sp-d16" valueType="enumerated"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.667285537" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.640602578" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" value="NUCLEO-G431KB" valueType="string"/>
-							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1203520682" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.3 || Debug || true || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32 || NUCLEO-G431KB || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/../../../Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/TRACER_EMB | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Include | ../USBPD | ../USBPD/App | ../Core/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/GUI_INTERFACE | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/include | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS ||  ||  || USBPD_PORT_COUNT=1 | STM32G431xx | _GUI_INTERFACE | USE_HAL_DRIVER | _RTOS | _TRACE | USE_FULL_LL_DRIVER | _SNK | USBPDCORE_LIB_PD3_FULL ||  || Utilities | Drivers | Core/Startup | USBPD | Middlewares | Core ||  || /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPDCORE_PD3_FULL_CM4_wc32.a || ${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o || " valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.type.1361147132" name="Internal Toolchain Type" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.type" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.option.internal.toolchain.version.338075372" name="Internal Toolchain Version" superClass="com.st.stm32cube.ide.mcu.option.internal.toolchain.version" useByScannerDiscovery="false" value="7-2018-q2-update" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu.1066563239" name="Mcu" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_mcu" useByScannerDiscovery="false" value="STM32G431KBTx" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid.84096146" name="CpuId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_cpuid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid.1912830795" name="CpuCoreId" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_coreid" useByScannerDiscovery="false" value="0" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.1222020631" name="Floating-point unit" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.fpu.value.fpv4-sp-d16" valueType="enumerated"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.667285537" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.640602578" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" useByScannerDiscovery="false" value="NUCLEO-G431KB" valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1203520682" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" useByScannerDiscovery="false" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.3 || Debug || true || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32 || NUCLEO-G431KB || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/../../../Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/TRACER_EMB | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Include | ../USBPD | ../USBPD/App | ../Core/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/GUI_INTERFACE | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/include | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS ||  ||  || USBPD_PORT_COUNT=1 | STM32G431xx | _GUI_INTERFACE | USE_HAL_DRIVER | _RTOS | _TRACE | USE_FULL_LL_DRIVER | _SNK | USBPDCORE_LIB_PD3_FULL ||  || Utilities | Drivers | Core/Startup | USBPD | Middlewares | Core ||  || /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPDCORE_PD3_FULL_CM4_wc32.a || ${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o || " valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.1252285427" name="Use float with printf from newlib-nano (-u _printf_float)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" useByScannerDiscovery="false" value="false" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.1881551173" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
 							<builder buildPath="${workspace_loc:/upd-data}/Debug" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.1881770744" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.857996375" name="MCU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.570283612" name="Debug level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.value.g3" valueType="enumerated"/>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.570283612" name="Debug level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel" useByScannerDiscovery="false" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.option.debuglevel.value.g3" valueType="enumerated"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1344215110" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.597232005" name="MCU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler">
@@ -59,9 +65,10 @@
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/ST/STM32_USBPD_Library/Core/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ILI9341_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${INA260_PATH}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/USBPD}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/USBPD/App}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/Core/ILI9341}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/Core/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1836762682" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
@@ -71,13 +78,14 @@
 								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level.815130097" name="Optimization level" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.option.optimization.level" useByScannerDiscovery="false"/>
 							</tool>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.447637071" name="MCU GCC Linker" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker">
-								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.1924561423" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" value="${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld}" valueType="string"/>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories.1984218776" name="Library search path (-L)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories" valueType="libPaths">
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script.1924561423" name="Linker Script (-T)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.script" useByScannerDiscovery="false" value="${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld}" valueType="string"/>
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories.1984218776" name="Library search path (-L)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.directories" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/ST/STM32_USBPD_Library/Core/lib&quot;"/>
 								</option>
-								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries.467903992" name="Libraries (-l)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries" valueType="libs">
+								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries.467903992" name="Libraries (-l)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value=":USBPDCORE_PD3_FULL_CM4_wc32.a"/>
 								</option>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.verbose.797566806" name="Verbose (-Wl,--verbose)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.verbose" useByScannerDiscovery="false" value="true" valueType="boolean"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input.877762499" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -98,9 +106,11 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USBPD"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ILI9341"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="INA260"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USBPD"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -109,9 +119,14 @@
 		<cconfiguration id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.230100259">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.230100259" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<macros>
+					<stringMacro name="LIB_PATH_LINUX" type="VALUE_PATH_ANY" value="/home/andrew/Development/STM32CubeIDE"/>
+					<stringMacro name="FW_PATH_MACOS" type="VALUE_PATH_ANY" value="/Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0"/>
 					<stringMacro name="FW_PATH" type="VALUE_PATH_ANY" value="${FW_PATH_LINUX}"/>
 					<stringMacro name="FW_PATH_LINUX" type="VALUE_PATH_ANY" value="/home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0"/>
-					<stringMacro name="FW_PATH_MACOS" type="VALUE_PATH_ANY" value="/Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0"/>
+					<stringMacro name="LIB_PATH_MACOS" type="VALUE_PATH_ANY" value="/Users/andrew/Development/STM32CubeIDE/git"/>
+					<stringMacro name="ILI9341_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH}/ILI9341-STM32-HAL/ILI9341"/>
+					<stringMacro name="INA260_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH}/INA260-STM32-HAL/INA260"/>
+					<stringMacro name="LIB_PATH" type="VALUE_PATH_ANY" value="${LIB_PATH_LINUX}"/>
 				</macros>
 				<externalSettings/>
 				<extensions>
@@ -135,6 +150,7 @@
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.818943471" name="Floating-point ABI" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi" value="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.floatabi.value.hard" valueType="enumerated"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board.170501373" name="Board" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.target_board" value="NUCLEO-G431KB" valueType="string"/>
 							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults.1417392071" name="Defaults" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.defaults" value="com.st.stm32cube.ide.common.services.build.inputs.revA.1.0.3 || Release || false || Executable || com.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.base.gnu-tools-for-stm32 || NUCLEO-G431KB || 0 || 0 || arm-none-eabi- || ${gnu_tools_for_stm32_compiler_path} || /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/../../../Drivers/STM32G4xx_HAL_Driver/Inc | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/../../../Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/include | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Include | ../USBPD | ../USBPD/App | ../Core/Inc | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/GUI_INTERFACE | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Device/ST/STM32G4xx/Include | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Drivers/CMSIS/Include | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Utilities/TRACER_EMB | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/Third_Party/FreeRTOS/Source/include | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/inc | /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Drivers/STM32G4xx_HAL_Driver/Inc/Legacy ||  ||  || USBPD_PORT_COUNT=1 | STM32G431xx | USE_HAL_DRIVER | _RTOS | USE_FULL_LL_DRIVER | _SNK | USBPDCORE_LIB_PD3_FULL ||  || Drivers | Core/Startup | USBPD | Middlewares | Core ||  || /Users/andrew/STM32Cube/Repository/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPDCORE_PD3_FULL_CM4_wc32.a | /home/andrew/.lib/stm32/repo/STM32Cube_FW_G4_V1.1.0/Middlewares/ST/STM32_USBPD_Library/Core/lib/USBPDCORE_PD3_FULL_CM4_wc32.a || ${workspace_loc:/${ProjName}/STM32G431KBTX_FLASH.ld} || true || NonSecure ||  || secure_nsclib.o || " valueType="string"/>
+							<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat.640926967" name="Use float with printf from newlib-nano (-u _printf_float)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.option.nanoprintffloat" value="false" valueType="boolean"/>
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform.1541369854" isAbstract="false" osList="all" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.targetplatform"/>
 							<builder buildPath="${workspace_loc:/upd-data}/Release" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder.772650232" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" parallelBuildOn="true" parallelizationNumber="optimal" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.builder"/>
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1019889536" name="MCU GCC Assembler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler">
@@ -163,9 +179,10 @@
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/ST/STM32_USBPD_Library/Devices/STM32G4XX/inc&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${FW_PATH}/Middlewares/ST/STM32_USBPD_Library/Core/inc&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${ILI9341_PATH}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${INA260_PATH}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/USBPD}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/USBPD/App}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/Core/ILI9341}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/upd-data/Core/Inc}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.425236324" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
@@ -182,6 +199,7 @@
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries.1950978309" name="Libraries (-l)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.libraries" valueType="libs">
 									<listOptionValue builtIn="false" value=":USBPDCORE_PD3_FULL_CM4_wc32.a"/>
 								</option>
+								<option id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.verbose.83571820" name="Verbose (-Wl,--verbose)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.option.verbose" value="true" valueType="boolean"/>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input.2127212469" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
 									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
@@ -202,9 +220,11 @@
 					</folderInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Core"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USBPD"/>
-						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="ILI9341"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="INA260"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares"/>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="USBPD"/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

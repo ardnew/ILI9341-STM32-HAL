@@ -62,7 +62,7 @@ extern "C" {
 
 // ----------------------------------------------------------- exported types --
 
-typedef struct ili9341_device ili9341_device_t;
+typedef struct ili9341 ili9341_t;
 
 typedef enum
 {
@@ -164,11 +164,11 @@ typedef enum
 }
 ili9341_spi_slave_t;
 
-typedef void (*ili9341_touch_callback_t)(ili9341_device_t *, uint16_t, uint16_t);
+typedef void (*ili9341_touch_callback_t)(ili9341_t *, uint16_t, uint16_t);
 
 typedef HAL_StatusTypeDef ili9341_status_t;
 
-struct ili9341_device
+struct ili9341
 {
   SPI_HandleTypeDef *spi_hal;
 
@@ -205,7 +205,7 @@ struct ili9341_device
 
 // ------------------------------------------------------- exported functions --
 
-ili9341_device_t *ili9341_device_new(
+ili9341_t *ili9341_new(
 
     SPI_HandleTypeDef *spi_hal,
 
@@ -221,19 +221,19 @@ ili9341_device_t *ili9341_device_new(
     ili9341_touch_support_t   touch_support,
     ili9341_touch_normalize_t touch_normalize);
 
-void ili9341_touch_interrupt(ili9341_device_t *dev);
-ili9341_touch_pressed_t ili9341_touch_pressed(ili9341_device_t *dev);
+void ili9341_touch_interrupt(ili9341_t *lcd);
+ili9341_touch_pressed_t ili9341_touch_pressed(ili9341_t *lcd);
 
-void ili9341_set_touch_pressed_begin(ili9341_device_t *dev,
+void ili9341_set_touch_pressed_begin(ili9341_t *lcd,
     ili9341_touch_callback_t callback);
-void ili9341_set_touch_pressed_end(ili9341_device_t *dev,
+void ili9341_set_touch_pressed_end(ili9341_t *lcd,
     ili9341_touch_callback_t callback);
 
-ili9341_touch_pressed_t ili9341_touch_coordinate(ili9341_device_t *dev,
+ili9341_touch_pressed_t ili9341_touch_coordinate(ili9341_t *lcd,
     uint16_t *x_pos, uint16_t *y_pos);
-void ili9341_calibrate_scalar(ili9341_device_t *dev,
+void ili9341_calibrate_scalar(ili9341_t *lcd,
     uint16_t min_x, uint16_t min_y, uint16_t max_x, uint16_t max_y);
-void ili9341_calibrate_3point(ili9341_device_t *dev,
+void ili9341_calibrate_3point(ili9341_t *lcd,
     uint16_t scale_width, uint16_t scale_height,
     int32_t screen_a_x, int32_t screen_a_y,
     int32_t screen_b_x, int32_t screen_b_y,
@@ -242,23 +242,23 @@ void ili9341_calibrate_3point(ili9341_device_t *dev,
     int32_t touch_b_x,  int32_t touch_b_y,
     int32_t touch_c_x,  int32_t touch_c_y);
 
-void ili9341_spi_tft_select(ili9341_device_t *dev);
-void ili9341_spi_tft_release(ili9341_device_t *dev);
-void ili9341_spi_touch_select(ili9341_device_t *dev);
-void ili9341_spi_touch_release(ili9341_device_t *dev);
-void ili9341_spi_slave_select(ili9341_device_t *dev,
+void ili9341_spi_tft_select(ili9341_t *lcd);
+void ili9341_spi_tft_release(ili9341_t *lcd);
+void ili9341_spi_touch_select(ili9341_t *lcd);
+void ili9341_spi_touch_release(ili9341_t *lcd);
+void ili9341_spi_slave_select(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave);
-void ili9341_spi_slave_release(ili9341_device_t *dev,
+void ili9341_spi_slave_release(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave);
 
-void ili9341_spi_write_command(ili9341_device_t *dev,
+void ili9341_spi_write_command(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave, uint8_t command);
-void ili9341_spi_write_data(ili9341_device_t *dev,
+void ili9341_spi_write_data(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave, uint16_t data_sz, uint8_t data[]);
-void ili9341_spi_write_data_read(ili9341_device_t *dev,
+void ili9341_spi_write_data_read(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave,
     uint16_t data_sz, uint8_t tx_data[], uint8_t rx_data[]);
-void ili9341_spi_write_command_data(ili9341_device_t *dev,
+void ili9341_spi_write_command_data(ili9341_t *lcd,
     ili9341_spi_slave_t spi_slave, uint8_t command, uint16_t data_sz, uint8_t data[]);
 
 #ifdef __cplusplus

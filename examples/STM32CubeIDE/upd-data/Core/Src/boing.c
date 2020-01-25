@@ -59,7 +59,7 @@ void boing_init(boing_ball_t *ball)
   }
 }
 
-void boing(ili9341_device_t *dev, boing_ball_t *ball)
+void boing(ili9341_t *lcd, boing_ball_t *ball)
 {
   if (NULL == ball)
     { return; }
@@ -148,14 +148,14 @@ void boing(ili9341_device_t *dev, boing_ball_t *ball)
   };
 
   // wait for previous DMA transfer to complete if any
-  ili9341_transmit_wait(dev);
+  ili9341_transmit_wait(lcd);
 
   // select target region
-  ili9341_spi_tft_set_address_rect(dev,
+  ili9341_spi_tft_set_address_rect(lcd,
       min.x, min.y, min.x + size.x - 1, min.y + size.y - 1);
-  ili9341_spi_tft_select(dev);
+  ili9341_spi_tft_select(lcd);
 
-  HAL_GPIO_WritePin(dev->data_command_port, dev->data_command_pin, __GPIO_PIN_SET__);
+  HAL_GPIO_WritePin(lcd->data_command_port, lcd->data_command_pin, __GPIO_PIN_SET__);
 
   for (int16_t y = 0; y < size.y; ++y) {
 
@@ -212,16 +212,16 @@ void boing(ili9341_device_t *dev, boing_ball_t *ball)
     }
 
     // wait for previous DMA transfer to complete
-    ili9341_transmit_wait(dev);
-    ili9341_transmit_color(dev, size.x * 2, (ball->spi_tx[bi]), ibNo);
+    ili9341_transmit_wait(lcd);
+    ili9341_transmit_color(lcd, size.x * 2, (ball->spi_tx[bi]), ibNo);
     bi = 1 - bi;
 
     ++(b.y);
     ++(g.y);
   }
 
-  ili9341_spi_tft_release(dev);
-  ili9341_transmit_wait(dev);
+  ili9341_spi_tft_release(lcd);
+  ili9341_transmit_wait(lcd);
 }
 
 // -----------------------------------------------------------------------------

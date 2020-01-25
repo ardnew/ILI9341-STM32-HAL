@@ -81,7 +81,7 @@ extern float const BOING_VELOCITY_DY;  // per-frame change in Y velocity
 extern float const BOING_BOUNCE_VEL_Y; // Y velocity on ball bounce
 
 void boing_init(boing_ball_t *ball);
-void boing(ili9341_device_t *dev, boing_ball_t *ball);
+void boing(ili9341_t *lcd, boing_ball_t *ball);
 
 // --
 
