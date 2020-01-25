@@ -23,6 +23,6 @@ C/C++ Build > Build Variables > ILI9341_PATH
 
 ---
 
-Careful regenerating initialization code if you load the .ioc file in STM32CubeMX/IDE, as it will probably break required configuration that was manually changed in source code. If you must, create a backup and diff it with the generated code to revert any of the unintended changes. **Product placement** I personally use and love [BeyondCompare](https://www.scootersoftware.com) for all diff tasks.
+Careful regenerating initialization code if you load the .ioc file in STM32CubeMX/IDE, as it will probably break required configuration that was manually changed in source code. If you must, create a backup and diff it with the generated code to revert any of the unintended changes. **UNSOLICITED PRODUCT PLACEMENT:** I personally use and love [BeyondCompare](https://www.scootersoftware.com) for all diff tasks.
 
 
