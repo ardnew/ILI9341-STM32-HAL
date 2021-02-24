@@ -51,7 +51,6 @@ static uint8_t ili9341_screen_rotation(
     ili9341_screen_orientation_t orientation);
 
 static int32_t interp(int32_t x, int32_t x0, int32_t x1, int32_t y0, int32_t y1);
-static float finterp(float x, float x0, float x1, float y0, float y1);
 ili9341_two_dimension_t ili9341_clip_touch_coordinate(ili9341_two_dimension_t coord,
     ili9341_two_dimension_t min, ili9341_two_dimension_t max);
 ili9341_two_dimension_t ili9341_project_touch_coordinate(ili9341_t *lcd,
@@ -621,14 +620,6 @@ static int32_t interp(int32_t x, int32_t x0, int32_t x1, int32_t y0, int32_t y1)
 {
   if (x1 == x0)
     { return 0; } // return 0 on divide-by-zero
-
-  return (x - x0) * (y1 - y0) / (x1 - x0) + y0;
-}
-
-static float finterp(float x, float x0, float x1, float y0, float y1)
-{
-  if (__FABS(x1 - x0) < 5.e-6F)
-    { return 0.0F; } // return 0 on divide-by-zero
 
   return (x - x0) * (y1 - y0) / (x1 - x0) + y0;
 }
