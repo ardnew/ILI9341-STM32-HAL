@@ -426,18 +426,31 @@ void ili9341_draw_string(ili9341_t *lcd, ili9341_text_attr_t attr, char str[])
 {
   int16_t curr_x = attr.origin_x;
   int16_t curr_y = attr.origin_y;
+  int16_t start_x = attr.origin_x;
 
   while ('\0' != *str) {
-    if ( (curr_x > lcd->screen_size.width) ||
-         (curr_y > lcd->screen_size.height) )
-      { break; }
+    if('\r' == *str)
+    {
+      curr_x = start_x;
+    }
+    else if('\n' == *str)
+    {
+      curr_y += attr.font->height;
+      curr_x = start_x;
+    }
+    else
+    {
+      if ( (curr_x > lcd->screen_size.width) ||
+          (curr_y > lcd->screen_size.height) )
+        { break; }
 
-    attr.origin_x = curr_x;
-    attr.origin_y = curr_y;
+      attr.origin_x = curr_x;
+      attr.origin_y = curr_y;
 
-    ili9341_draw_char(lcd, attr, *str);
+      ili9341_draw_char(lcd, attr, *str);
 
-    curr_x += attr.font->width;
+      curr_x += attr.font->width;
+    }
     ++str;
   }
 }
